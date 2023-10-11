@@ -14,8 +14,6 @@ SWIGEXT {
 #else
 #define SWIGEXT 
 #endif
-#define value caml_value_t
-#define CAML_VALUE caml_value_t
 #define CAML_NAME_SPACE
 #include <caml/alloc.h>
 #include <caml/custom.h>
@@ -24,6 +22,9 @@ SWIGEXT {
 #include <caml/callback.h>
 #include <caml/fail.h>
 #include <caml/misc.h>
+
+typedef value caml_value_t ;
+typedef caml_value_t CAML_VALUE ;
 
 #if defined(CAMLassert)
 /* Both this macro and version.h were introduced in version 4.02.0 */
@@ -80,25 +81,17 @@ SWIGEXT {
                                                  /* Also an l-value. */
 #endif
 
-#ifdef CAMLreturn0
-#undef CAMLreturn0
-#endif
-#define CAMLreturn0 do{ \
-  caml_local_roots = caml__frame; \
-  return; \
-}while (0)
-
 #ifdef CAMLreturn
 #undef CAMLreturn
 #endif
 #define CAMLreturn(result) do{ \
   caml_value_t caml__temp_result = (result); \
-  caml_local_roots = caml__frame; \
+  CAMLdrop; \
   return (caml__temp_result); \
 }while(0)
 
 #define CAMLreturn_type(result) do{ \
-  caml_local_roots = caml__frame; \
+  CAMLdrop; \
   return result; \
 }while(0)
 
