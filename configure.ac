@@ -1570,6 +1570,13 @@ else
     # OCaml package tool
     if test -z "$OCAMLFIND"; then
 	AC_CHECK_PROGS(OCAMLFIND, ocamlfind)
+
+	AC_CHECK_OCAML_PKG([camlp-streams])
+	if test "$OCAML_PKG_camlp_streams" = "no"; then
+	   CAMLP_STREAMS=""
+        else
+	   CAMLP_STREAMS="camlp-streams"
+        fi
     fi
 
     # OCaml toplevel creator
@@ -1583,6 +1590,7 @@ AC_SUBST(CAMLP4)
 AC_SUBST(OCAMLDLGEN)
 AC_SUBST(OCAMLFIND)
 AC_SUBST(OCAMLMKTOP)
+AC_SUBST(CAMLP_STREAMS)
 
 #----------------------------------------------------------------
 # Look for Octave
